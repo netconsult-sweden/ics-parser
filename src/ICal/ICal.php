@@ -1474,12 +1474,12 @@ class ICal
                                 foreach ($monthdays as $key => $monthday) {
                                     if ($key === 0) {
                                         // Ensure original event conforms to monthday rule
-                                        $anEvent['DTSTART'] = gmdate(
+                                        $anEvent['DTSTART'] = date(
                                                 'Ym' . sprintf('%02d', $monthday) . '\T' . self::TIME_FORMAT,
                                                 strtotime($anEvent['DTSTART'])
                                             ) . ($isAllDayEvent || ($initialStartTimeZoneName === 'Z') ? 'Z' : '');
 
-                                        $anEvent['DTEND'] = gmdate(
+                                        $anEvent['DTEND'] = date(
                                                 'Ym' . sprintf('%02d', $monthday) . '\T' . self::TIME_FORMAT,
                                                 isset($anEvent['DURATION'])
                                                     ? $this->parseDuration($anEvent['DTSTART'], end($anEvent['DURATION_array']))
@@ -1493,7 +1493,7 @@ class ICal
 
                                         // Ensure recurring timestamp confirms to BYMONTHDAY rule
                                         $monthRecurringTimestamp = $this->iCalDateToUnixTimestamp(
-                                            gmdate(
+                                            date(
                                                 'Ym' . sprintf('%02d', $monthday) . '\T' . self::TIME_FORMAT,
                                                 $recurringTimestamp
                                             ) . ($isAllDayEvent || ($initialStartTimeZoneName === 'Z') ? 'Z' : '')
@@ -1696,17 +1696,17 @@ class ICal
                                 foreach ($bymonths as $bymonth) {
                                     $eventStartDesc = "{$this->convertDayOrdinalToPositive($dayNumber, $weekday, $yearRecurringTimestamp)} {$this->weekdays[$weekday]}"
                                         . " of {$this->monthNames[$bymonth]} "
-                                        . gmdate('Y H:i:s', $yearRecurringTimestamp);
+                                        . date('Y H:i:s', $yearRecurringTimestamp);
                                     $eventStartTimestamp = strtotime($eventStartDesc);
 
                                     if (intval($rrules['BYDAY']) === 0) {
                                         $lastDayDesc = "last {$this->weekdays[$weekday]}"
                                             . " of {$this->monthNames[$bymonth]} "
-                                            . gmdate('Y H:i:s', $yearRecurringTimestamp);
+                                            . date('Y H:i:s', $yearRecurringTimestamp);
                                     } else {
                                         $lastDayDesc = "{$this->convertDayOrdinalToPositive($dayNumber, $weekday, $yearRecurringTimestamp)} {$this->weekdays[$weekday]}"
                                             . " of {$this->monthNames[$bymonth]} "
-                                            . gmdate('Y H:i:s', $yearRecurringTimestamp);
+                                            . date('Y H:i:s', $yearRecurringTimestamp);
                                     }
 
                                     $lastDayTimestamp = strtotime($lastDayDesc);
@@ -1785,10 +1785,10 @@ class ICal
                                 $eventStartDescs = array();
                                 if (isset($rrules['BYMONTH']) && $rrules['BYMONTH'] !== '') {
                                     foreach ($bymonths as $bymonth) {
-                                        array_push($eventStartDescs, "{$day} {$this->monthNames[$bymonth]} " . gmdate('Y H:i:s', $yearRecurringTimestamp));
+                                        array_push($eventStartDescs, "{$day} {$this->monthNames[$bymonth]} " . date('Y H:i:s', $yearRecurringTimestamp));
                                     }
                                 } else {
-                                    array_push($eventStartDescs, $day . gmdate(self::DATE_TIME_FORMAT_PRETTY, $yearRecurringTimestamp));
+                                    array_push($eventStartDescs, $day . date(self::DATE_TIME_FORMAT_PRETTY, $yearRecurringTimestamp));
                                 }
 
                                 foreach ($eventStartDescs as $eventStartDesc) {
